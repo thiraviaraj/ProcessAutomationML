@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="col-md-12 jumbotron">
+        <audio id="audio" src="/src/assets/music/beep.wav" ></audio>
+        <h2>Process Automation </h2>
+        <b>Below process execution based on image classification works based on Convolutional Neural Network.</b>
+    </div>
+
+    <div class="row">
+
+        <div [hidden]="!isImgTextConfiged" class="col-md-7">
+            <video id="video" class="col-md-11" height="480" autoplay></video>
+
+            <h6 id="loading">Loading base model...</h6>
+
+        </div>
+        <div *ngIf="!isImgTextConfiged" class="col-md-7">
+          <img class="col-md-11" src="/src/assets/img/ai.png" height="480"/>
+        </div>
+        <div class="col-md-5">
+            <form #namesForm="ngForm">
+            <table *ngIf="!isImgTextConfiged" class="table table-bordered">
+                <thead>
+                    <th>Key
+                    </th>
+                    <th>Value
+                      </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of itemTitle; let i = index">
+                        <td>Item {{i+1}}</td>
+                        <td><input autocomplete="off" type="text" [(ngModel)]="item.name" name="{{item.id}}+{{index}}"/></td>
+                        <td><input type="button" value="Add" *ngIf="i+1==itemTitle.length && itemTitle.length < 2" (click)="addRow(i+1)"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button class="btn btn-primary" id="predict" (click)="ProceedTraining()">Proceed Training</button><br></td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+            <table *ngIf="isImgTextConfiged" class="table table-bordered">
+                <tbody>
+                    <tr *ngFor="let item of itemTitle; let i = index">
+                        <td><button (click)="item1Btn(item.name, i)" class="btn btn-warning">Add {{item.name}} Image</button></td>
+                        <td><span id="amountOfItem1">{{ item.total }}</span> {{item.name}} Images</td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-success" (click)="train()">Train</button></td>
+                        <td><span id="loss">{{loss}}</span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-success" (click)="save()">Save</button></td>
+                    </tr>
+                    <tr>
+                        <td>My guess is: <span id="result" >{{res}}</span></td>
+                        <td><button class="btn btn-primary"  (click)="predict()">Start guessing!</button><br></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 250px;">
+                <br>
+            </p>
+        </div>
+        <div *ngIf="isImgTextConfiged" class="col-md-12 jumbotron">
+            <h2>Automation Process</h2>
+            <div style="background:#c9c9ef;border: 2px solid white;padding-bottom: 20px;margin-bottom: 10px;" *ngFor="let itemTl of itemTitle; let i = index">
+            <b>(With the trained data execute a process for {{itemTl.name}})</b>    
+            <div class="row" style="margin-bottom: 50px;margin-left: 35px;" [sortablejs]="itemTl.process" [sortablejsOptions]="scrollableOptions">
+              <div class="col-md-2 box" style="padding: 0px" *ngFor="let item of itemTl.process">
+                  <img [src]="item.url" style="padding:15px" class="centPerc" />
+                  <div class="col-md-12 box marginLRZero" style="height:30px">{{item.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+</div>

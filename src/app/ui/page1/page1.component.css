@@ -1,0 +1,16 @@
+.btn {
+    width: 150px;
+}
+
+.box {
+    height: 150px;
+    background-color: azure;
+    border: aqua solid 1px;
+    margin: 12px;
+    
+}
+
+.marginLRZero {
+    margin-left: 0px;
+    margin-right: 0px;
+}
